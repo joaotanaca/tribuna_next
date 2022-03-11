@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
+import { PostModel } from "interfaces/models/Post";
 import connection from "../connection";
 
 const PostSchema = async () => {
     await connection();
-    return new mongoose.Schema({
+    return new mongoose.Schema<PostModel>({
         title: {
             type: String,
             required: [true, "É preciso adicionar o titulo do artigo."],
@@ -31,4 +32,4 @@ const PostSchema = async () => {
     });
 };
 export default mongoose.models.Post ||
-    mongoose.model("Post", await PostSchema());
+    mongoose.model<PostModel>("Post", await PostSchema());
