@@ -4,7 +4,7 @@ import connection from "../connection";
 
 const PostSchema = async () => {
     await connection();
-    return new mongoose.Schema<PostModel>({
+    const schema = new mongoose.Schema<PostModel>({
         title: {
             type: String,
             required: [true, "É preciso adicionar o titulo do artigo."],
@@ -26,10 +26,15 @@ const PostSchema = async () => {
             type: String,
             required: [true, "É necessário adicionar um artigo."],
         },
-        tags: {
-            type: [String],
-        },
+        tags: [String],
+    }).index({
+        title: "text",
+        subtitle: "text",
+        authorship: "text",
+        article: "text",
     });
+
+    return schema;
 };
 export default mongoose.models.Post ||
     mongoose.model<PostModel>("Post", await PostSchema());

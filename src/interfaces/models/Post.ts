@@ -1,4 +1,5 @@
 export type PostModel = {
+    id?: string;
     title: string;
     subtitle: string;
     image: string;
