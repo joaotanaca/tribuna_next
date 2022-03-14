@@ -4,14 +4,14 @@ import { PostModel } from "interfaces/models/Post";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     const {
-        query: { q },
+        query: { q, fields },
         body,
         method,
     } = req;
     let post;
     switch (method) {
         case "GET":
-            post = await Get(q as string);
+            post = await Get(q as string, fields as string);
 
             return res.status(200).send(post);
 
@@ -25,9 +25,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             return res.status(405).send("Method not allowed");
     }
 }
-const Get = async (text: string) => {
-    const post = await Post.find({ $text: { $search: text } });
-    return post;
+
+const Get = async (text: string, fields: string) => {
+    const query: { [key: string]: any } = {};
+    if (text) {
+        query["$text"] = { $search: text };
+    }
+
+    const schema = await Post.find(query).select(fields.replace(",", " "));
+
+    return schema;
 };
 
 const Create = async ({ id, ...body }: PostModel) => {
