@@ -26,7 +26,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 }
 
-const Get = async (text: string, fields: string) => {
+const Get = async (text: string, fields: string = "") => {
     const query: { [key: string]: any } = {};
     if (text) {
         query["$text"] = { $search: text };
