@@ -1,4 +1,5 @@
 import axios from "axios";
+import Dropzone from "components/molecules/Dropzone";
 import { PostModel } from "interfaces/models/Post";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -13,14 +14,21 @@ const PostPage: React.FC = () => {
     } = useForm<PostModel>();
     const { quill, quillRef } = useQuill();
     const [article, setArticle] = useState("");
+    const [img, setImg] = useState("");
     const onSubmit = async (data: PostModel) => {
-        const post = await axios.post("/api/post", { ...data, article });
+        const post = await axios.post("/api/post", {
+            ...data,
+            image: img,
+            article,
+        });
         console.log(post);
     };
+
     useEffect(() => {
         if (quill)
             quill.on("text-change", () => setArticle(quill.root.innerHTML));
     }, [quill, quillRef]);
+
     return (
         <>
             <form
@@ -35,6 +43,9 @@ const PostPage: React.FC = () => {
                 </div>
                 <div>
                     <input type="text" {...register("image")} />
+                </div>
+                <div>
+                    <Dropzone onChange={(img) => setImg(img as string)} />
                 </div>
                 <div className="w-full">
                     <div ref={quillRef} />

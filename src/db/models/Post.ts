@@ -8,7 +8,6 @@ const PostSchema = async () => {
         title: {
             type: String,
             required: [true, "É preciso adicionar o titulo do artigo."],
-            maxlength: [20, "O titulo precisa ter no máximo 20 carácter."],
         },
         subtitle: {
             type: String,
