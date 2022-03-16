@@ -2,14 +2,18 @@ import Post from "components/pages/Post";
 import PostModelDb from "db/models/Post";
 import { PostModel } from "interfaces/models/Post";
 import type { GetStaticPropsContext, NextPage } from "next";
+import Head from "next/head";
 
 const PostPage: NextPage<{ post: PostModel }> = ({ post }) => {
-    console.log(post);
-
     return (
-        <div className="mt-16">
-            <Post {...post} />
-        </div>
+        <>
+            <Head>
+                <title>{post.title}</title>
+            </Head>
+            <div className="mt-16">
+                <Post {...post} />
+            </div>
+        </>
     );
 };
 

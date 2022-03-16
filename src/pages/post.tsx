@@ -10,11 +10,10 @@ const PostPage: React.FC = () => {
     const {
         register,
         handleSubmit,
-        watch,
-        formState: { errors },
+        formState: { isSubmitting, isValid },
     } = useForm<PostModel>();
-    const [link, setLink] = useState("");
     const { quill, quillRef } = useQuill();
+    const [link, setLink] = useState("");
     const [article, setArticle] = useState("");
     const [img, setImg] = useState("");
     const onSubmit = async (data: PostModel) => {
@@ -34,35 +33,42 @@ const PostPage: React.FC = () => {
 
     return (
         <>
+            {link && (
+                <div className="container mx-auto mt-16">
+                    <Link passHref href={link as any}>
+                        <a target="_blank">Post publicado</a>
+                    </Link>
+                </div>
+            )}
             <form
                 className="flex flex-col gap-4 mx-auto container mt-16"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <div className="flex flex-col">
-                    <label htmlFor="title">Titulo:</label>
-                    <input type="text" {...register("title")} />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="title">Subtitulo:</label>
-                    <input type="text" {...register("subtitle")} />
-                </div>
-                <div>
-                    <Dropzone onChange={(img) => setImg(img as string)} />
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col col-span-2">
+                        <label htmlFor="title">Titulo:</label>
+                        <input type="text" {...register("title")} />
+                    </div>
+                    <div className="flex flex-col col-span-1">
+                        <label htmlFor="title">Subtitulo:</label>
+                        <input type="text" {...register("subtitle")} />
+                    </div>
+                    <div className="flex flex-col col-span-1">
+                        <label htmlFor="title">Autor:</label>
+                        <input type="text" {...register("authorship")} />
+                    </div>
+                    <div className="col-span-2">
+                        <Dropzone onChange={(img) => setImg(img as string)} />
+                    </div>
                 </div>
                 <div className="w-full">
                     <div ref={quillRef} />
                 </div>
-                <div className="flex flex-col">
-                    <label htmlFor="title">Autor:</label>
-                    <input type="text" {...register("authorship")} />
-                </div>
-                <button type="submit">Enviar</button>
+
+                <button type="submit" disabled={isSubmitting || !isValid}>
+                    {isSubmitting ? "Enviando" : "Enviar"}
+                </button>
             </form>
-            {link && (
-                <Link passHref href={link as any}>
-                    <a>link</a>
-                </Link>
-            )}
         </>
     );
 };
