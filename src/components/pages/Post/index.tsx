@@ -11,7 +11,11 @@ const Post: React.FC<PostModel> = (post) => {
                 <h2 className="col-span-12 text-xl">{post?.subtitle}</h2>
             </ContainerHeader>
             <div>
-                <img src={post.image} alt="dsadsa" />
+                <img
+                    src={post.image}
+                    alt="dsadsa"
+                    className="w-full object-cover object-center"
+                />
             </div>
             <br />
             <Content
