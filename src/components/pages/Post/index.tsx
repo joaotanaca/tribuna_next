@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { PostModel } from "interfaces/models/Post";
-import { ContainerHeader, Container } from "./styles";
+import { ContainerHeader, Container, Content } from "./styles";
 import React from "react";
 
 const Post: React.FC<PostModel> = (post) => {
@@ -14,7 +14,7 @@ const Post: React.FC<PostModel> = (post) => {
                 <img src={post.image} alt="dsadsa" />
             </div>
             <br />
-            <div
+            <Content
                 className="text-justify text-lg"
                 dangerouslySetInnerHTML={{ __html: post?.article || "" }}
             />

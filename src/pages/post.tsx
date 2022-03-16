@@ -1,6 +1,7 @@
 import axios from "axios";
 import Dropzone from "components/molecules/Dropzone";
 import { PostModel } from "interfaces/models/Post";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQuill } from "react-quilljs";
@@ -12,16 +13,18 @@ const PostPage: React.FC = () => {
         watch,
         formState: { errors },
     } = useForm<PostModel>();
+    const [link, setLink] = useState("");
     const { quill, quillRef } = useQuill();
     const [article, setArticle] = useState("");
     const [img, setImg] = useState("");
     const onSubmit = async (data: PostModel) => {
-        const post = await axios.post("/api/post", {
+        const { data: response } = await axios.post<PostModel>("/api/post", {
             ...data,
             image: img,
             article,
         });
-        console.log(post);
+        setLink(`/post/${response._id}/${response.title}`);
+        console.log(data);
     };
 
     useEffect(() => {
@@ -42,9 +45,6 @@ const PostPage: React.FC = () => {
                     <input type="text" {...register("subtitle")} />
                 </div>
                 <div>
-                    <input type="text" {...register("image")} />
-                </div>
-                <div>
                     <Dropzone onChange={(img) => setImg(img as string)} />
                 </div>
                 <div className="w-full">
@@ -55,10 +55,11 @@ const PostPage: React.FC = () => {
                 </div>
                 <button type="submit">Enviar</button>
             </form>
-            <div
-                className="mx-auto container ql-editor"
-                dangerouslySetInnerHTML={{ __html: article }}
-            />
+            {link && (
+                <Link passHref href={link as any}>
+                    <a>link</a>
+                </Link>
+            )}
         </>
     );
 };

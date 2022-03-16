@@ -9,6 +9,14 @@ export const ContainerHeader = styled.div.attrs({
     }
 `;
 
-export const Container = styled.div.attrs({ className: "w-full mx-auto flex flex-col gap-4" })`
+export const Container = styled.div.attrs({
+    className: "w-full mx-auto flex flex-col gap-4",
+})`
     max-width: 1080px;
+`;
+
+export const Content = styled.div`
+    a {
+        color: ${({ theme }) => theme.blue}!important;
+    }
 `;

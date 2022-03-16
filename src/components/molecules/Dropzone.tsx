@@ -43,7 +43,6 @@ const Dropzone: React.FC<{
         maxSize: 10000000,
         multiple: false,
     });
-    const [img, setImage] = useState("");
 
     const style = useMemo(
         () => ({
@@ -58,7 +57,7 @@ const Dropzone: React.FC<{
         getBase64(file, onChange);
         return (
             <li key={file.name}>
-                {file.name} - {file.size} bytes
+                {file.name}
             </li>
         );
     });
@@ -75,7 +74,6 @@ const Dropzone: React.FC<{
                 <p>Selecione ou arraste uma imagem aqui</p>
             </div>
             <aside>
-                <h4>Files</h4>
                 <ul>{files}</ul>
             </aside>
         </section>
