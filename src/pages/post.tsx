@@ -38,10 +38,12 @@ const PostPage: React.FC = () => {
                 className="flex flex-col gap-4 mx-auto container mt-16"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <div>
+                <div className="flex flex-col">
+                    <label htmlFor="title">Titulo:</label>
                     <input type="text" {...register("title")} />
                 </div>
-                <div>
+                <div className="flex flex-col">
+                    <label htmlFor="title">Subtitulo:</label>
                     <input type="text" {...register("subtitle")} />
                 </div>
                 <div>
@@ -50,7 +52,8 @@ const PostPage: React.FC = () => {
                 <div className="w-full">
                     <div ref={quillRef} />
                 </div>
-                <div>
+                <div className="flex flex-col">
+                    <label htmlFor="title">Autor:</label>
                     <input type="text" {...register("authorship")} />
                 </div>
                 <button type="submit">Enviar</button>
