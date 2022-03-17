@@ -8,3 +8,13 @@ export type PostModel = {
     article: string;
     tags: string[];
 };
+
+export type PostKeys =
+    | "_id"
+    | "id"
+    | "title"
+    | "subtitle"
+    | "image"
+    | "authorship"
+    | "article"
+    | "tags";

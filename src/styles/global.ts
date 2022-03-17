@@ -9,9 +9,7 @@ export default createGlobalStyle`
         font-weight: 400;
     }
     
-    ${({ theme }) => css`
-        body {
-            background-color: ${theme.gray6};
-        }
-    `}
+    body {
+        background-color: #fafafa;
+    }
 `;

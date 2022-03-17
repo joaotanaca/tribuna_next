@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Post from "db/models/Post";
 import { PostModel } from "interfaces/models/Post";
+import { getErrors } from "lib/errors";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     const {
@@ -17,7 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
         case "POST":
             post = await Create(body);
-
+            if (post?.type === "error") return res.status(400).send(post);
             if (post) return res.status(200).send(post);
             return res.status(400).send("Bad Request");
 
@@ -32,14 +33,19 @@ const Get = async (text: string, fields: string = "") => {
         query["$text"] = { $search: text };
     }
 
-    const schema = await Post.find(query).select(fields.replace(",", " "));
+    const post = await Post.find(query).select(fields.replace(",", " "));
 
-    return schema;
+    return post;
 };
 
 const Create = async ({ id, ...body }: PostModel) => {
-    const post = await Post.create(body);
-    return post;
+    let response;
+    try {
+        response = await Post.create(body);
+    } catch (err: any) {
+        response = getErrors(err);
+    }
+    return response;
 };
 
 export default handler;
