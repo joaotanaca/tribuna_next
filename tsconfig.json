@@ -16,9 +16,11 @@
         "incremental": true,
         "baseUrl": "./src",
         "paths": {
-            "models": ["./db/models/*"],
-            "page": ["./components/pages/*"],
-            "organisms": ["./components/organisms/*"]
+            "models/*": ["./db/models/*"],
+            "page/*": ["./components/pages/*"],
+            "atoms/*": ["./components/atoms/*"],
+            "molecules/*": ["./components/molecules/*"],
+            "organisms/*": ["./components/organisms/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
