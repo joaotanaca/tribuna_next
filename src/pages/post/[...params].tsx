@@ -1,5 +1,5 @@
-import Post from "components/pages/Post";
-import PostModelDb from "db/models/Post";
+import Post from "page/Post";
+import PostModelDb from "models/Post";
 import { PostModel } from "interfaces/models/Post";
 import type { GetStaticPropsContext, NextPage } from "next";
 import Head from "next/head";
