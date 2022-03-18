@@ -109,12 +109,23 @@ const PostPage: React.FC = () => {
                     <Quill onChange={setArticle} />
                 </div>
 
-                <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "Enviando" : "Enviar"}
-                </Button>
-                <Button onClick={onPreview} type="button" disabled={!isValid}>
-                    Preview
-                </Button>
+                <div className="flex gap-4">
+                    <Button
+                        className="w-full"
+                        type="submit"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? "Enviando" : "Enviar"}
+                    </Button>
+                    <Button
+                        className="w-full"
+                        onClick={onPreview}
+                        type="button"
+                        disabled={!isValid}
+                    >
+                        Preview
+                    </Button>
+                </div>
             </form>
         </>
     );

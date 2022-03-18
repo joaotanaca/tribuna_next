@@ -1,12 +1,12 @@
-import React from "react";
+import React, { ButtonHTMLAttributes, HTMLAttributes } from "react";
 
 import styled, { css } from "styled-components";
 
-type ButtonStyled = { inverse?: boolean };
+type ButtonStyled = {
+    inverse?: boolean;
+};
 
-const Button = styled.button.attrs({
-    className: "rounded-lg px-2.5 py-3.5 transition-all",
-})<ButtonStyled>`
+const Container = styled.button<ButtonStyled>`
     ${({ inverse, theme }) => css`
         ${inverse
             ? css`
@@ -31,5 +31,15 @@ const Button = styled.button.attrs({
         }
     `}
 `;
+const Button: React.FC<
+    ButtonHTMLAttributes<HTMLButtonElement> & ButtonStyled
+> = ({ children, className, ...props }) => (
+    <Container
+        className={`${className} rounded-lg px-2.5 py-3.5 transition-all`}
+        {...props}
+    >
+        {children}
+    </Container>
+);
 
 export default Button;
