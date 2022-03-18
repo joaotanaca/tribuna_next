@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+/* eslint-disable @next/next/no-img-element */
+import React, { useEffect, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { getBase64 } from "../../../lib/base64";
 import { ContainerDrop } from "./styles";
@@ -6,6 +7,7 @@ import { ContainerDrop } from "./styles";
 const Dropzone: React.FC<{
     onChange: (img: string | string[]) => void;
 }> = ({ onChange }) => {
+    const [preview, setPreview] = useState("");
     const {
         acceptedFiles,
         getRootProps,
@@ -20,12 +22,24 @@ const Dropzone: React.FC<{
     });
 
     const files = acceptedFiles.map((file) => {
-        getBase64(file, onChange);
-        return <li key={file.name}>{file.name}</li>;
+        getBase64(file, setPreview);
+        return (
+            <div key={file.name} className="flex gap-4 items-center h-full">
+                <img
+                    src={preview}
+                    alt="img-preview"
+                    className="rounded-lg object-contain"
+                />
+                <b>{file.name}</b>
+            </div>
+        );
     });
+    useEffect(() => {
+        onChange(preview);
+    }, [onChange, preview]);
 
     return (
-        <section className="container">
+        <section className="container grid grid-cols-12 gap-4">
             <ContainerDrop
                 {...getRootProps({
                     className: `${
@@ -34,15 +48,13 @@ const Dropzone: React.FC<{
                             : isDragAccept
                             ? "accept"
                             : isDragReject && "reject"
-                    } dropzone flex flex-col items-center p-5 rounded-md border border-dashed outline-none`,
+                    } dropzone flex flex-col items-center p-5 rounded-md border border-dashed outline-none col-span-9`,
                 })}
             >
                 <input {...getInputProps()} />
                 <p>Selecione ou arraste uma imagem aqui</p>
             </ContainerDrop>
-            <aside>
-                <ul>{files}</ul>
-            </aside>
+            <aside>{files}</aside>
         </section>
     );
 };

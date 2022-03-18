@@ -1,6 +1,13 @@
-import { toolbar } from "constants/quill";
 import React, { useEffect } from "react";
 import { useQuill } from "react-quilljs";
+import styled from "styled-components";
+import { toolbar } from "constants/quill";
+
+export const Container = styled.div`
+    .ql-editor {
+        min-height: 300px;
+    }
+`;
 
 const Quill: React.FC<{ onChange: (value: string) => void }> = ({
     onChange,
@@ -16,7 +23,7 @@ const Quill: React.FC<{ onChange: (value: string) => void }> = ({
             quill.on("text-change", () => onChange(quill.root.innerHTML));
     }, [onChange, quill]);
 
-    return <div ref={quillRef} />;
+    return <Container ref={quillRef} />;
 };
 
 export default Quill;
