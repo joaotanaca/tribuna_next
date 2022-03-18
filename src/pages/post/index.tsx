@@ -7,8 +7,6 @@ import { PostKeys, PostModel } from "interfaces/models/Post";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { watch } from "fs";
-import { useRouter } from "next/router";
 
 const PostPage: React.FC = () => {
     const {
@@ -23,7 +21,7 @@ const PostPage: React.FC = () => {
     const [link, setLink] = useState("");
     const [article, setArticle] = useState("");
     const [img, setImg] = useState("");
-
+    const values = watch();
     const onSubmit = async (data: PostModel) => {
         try {
             const { data: response } = await axios.post<PostModel>(
@@ -44,6 +42,19 @@ const PostPage: React.FC = () => {
                 });
             });
         }
+    };
+
+    const onPreview = async () => {
+        await axios.post<PostModel>("/api/preview");
+        localStorage.setItem(
+            "previewData",
+            JSON.stringify({
+                ...values,
+                image: img,
+                article,
+            }),
+        );
+        window.open(`/post/preview/${values.title}`, "_blank")?.focus();
     };
 
     return (
@@ -101,9 +112,9 @@ const PostPage: React.FC = () => {
                 <Button type="submit" disabled={isSubmitting}>
                     {isSubmitting ? "Enviando" : "Enviar"}
                 </Button>
-                {/* <Button onClick={} type="button" disabled={!isValid}>
+                <Button onClick={onPreview} type="button" disabled={!isValid}>
                     Preview
-                </Button> */}
+                </Button>
             </form>
         </>
     );
