@@ -1,29 +1,44 @@
-import React, { useEffect } from "react";
-import { useQuill } from "react-quilljs";
-import styled from "styled-components";
+import React, {
+    ComponentType,
+    MutableRefObject,
+    useCallback,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import { toolbar } from "constants/quill";
-
-export const Container = styled.div`
-    .ql-editor {
-        min-height: 300px;
-    }
-`;
+import dynamic from "next/dynamic";
+import { JoditProps } from "jodit-react";
 
 const Quill: React.FC<{ onChange: (value: string) => void }> = ({
     onChange,
 }) => {
-    const { quill, quillRef } = useQuill({
-        modules: {
-            toolbar,
+    const JoditEditor = useMemo(
+        () =>
+            dynamic(() => import("jodit-react"), {
+                ssr: false,
+            }) as ComponentType<JoditProps & { ref: MutableRefObject<null> }>,
+        [],
+    );
+    const editor = useRef(null);
+    const [content, setContent] = useState("");
+
+    const handleChange = useCallback(
+        (value) => {
+            setContent(value);
+            onChange(value);
         },
-    });
+        [onChange],
+    );
 
-    useEffect(() => {
-        if (quill)
-            quill.on("text-change", () => onChange(quill.root.innerHTML));
-    }, [onChange, quill]);
-
-    return <Container ref={quillRef} />;
+    return (
+        <JoditEditor
+            ref={editor}
+            value={content}
+            config={toolbar}
+            onBlur={handleChange}
+        />
+    );
 };
 
 export default Quill;

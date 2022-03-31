@@ -6,6 +6,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { lsget } from "lib/localstorage";
 
 const PostPage: NextPage<{ info: PostModel; preview: boolean }> = ({
     info,
@@ -16,8 +17,8 @@ const PostPage: NextPage<{ info: PostModel; preview: boolean }> = ({
 
     useEffect(() => {
         if (preview) {
-            const json = localStorage.getItem("previewData") as string;
-            setPost(JSON.parse(json));
+            const json = lsget("previewData");
+            setPost(json);
             setTimeout(() => {
                 localStorage.removeItem("previewData");
             }, 500);

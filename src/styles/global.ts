@@ -11,5 +11,6 @@ export default createGlobalStyle`
     
     body {
         background-color: #fafafa;
+        padding: 40px 0;
     }
 `;
