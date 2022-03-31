@@ -7,6 +7,8 @@ export type PostModel = {
     authorship: string;
     article: string;
     tags: string[];
+    createdAt: string;
+    updatedAt: string;
 };
 
 export type PostKeys =
