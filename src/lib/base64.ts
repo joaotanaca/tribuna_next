@@ -1,5 +1,3 @@
-import { SetStateAction } from "react";
-
 export const getBase64 = (file: Blob, setImage: any) => {
     const files = new FileReader();
     files.onloadend = function () {
