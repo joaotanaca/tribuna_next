@@ -13,6 +13,7 @@ export const Container = styled.div.attrs({
     className: "w-full mx-auto flex flex-col gap-4",
 })`
     max-width: 1080px;
+    width: calc(100% - 60px);
     img {
         height: 430px;
     }
