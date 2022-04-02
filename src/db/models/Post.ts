@@ -25,6 +25,14 @@ const PostSchema = async () => {
             type: String,
             required: [true, "É necessário adicionar um artigo."],
         },
+        createdAt: {
+            type: String,
+            required: [true, "É necessário."],
+        },
+        updatedAt: {
+            type: String,
+            required: [true, "É necessário."],
+        },
         tags: [String],
     }).index({
         title: "text",

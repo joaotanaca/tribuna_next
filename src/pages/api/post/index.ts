@@ -40,6 +40,8 @@ const Get = async (text: string, fields: string = "") => {
 
 const Create = async ({ id, ...body }: PostModel) => {
     let response;
+    console.log(body);
+    
     try {
         response = await Post.create(body);
     } catch (err: any) {
@@ -49,3 +51,4 @@ const Create = async ({ id, ...body }: PostModel) => {
 };
 
 export default handler;
+
