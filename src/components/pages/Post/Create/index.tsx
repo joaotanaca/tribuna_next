@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import Button from "atoms/Button";
@@ -12,6 +12,8 @@ import { localeOptions } from "constants/date";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { handlePost } from "helpers/createPost";
 
 const Container = styled.div.attrs({ className: "mx-auto" })`
     max-width: 1080px;
@@ -34,70 +36,50 @@ const CreatePost: React.FC<PostModel> = (post) => {
         watch,
         formState: { isSubmitting, errors, isValid },
     } = useForm<PostModel>({ defaultValues: post });
-
     const [link, setLink] = useState("");
     const [article, setArticle] = useState("");
     const [img, setImg] = useState(post.image || "");
     const values = watch();
+    const router = useRouter();
 
     const date = new Date().toLocaleDateString(...localeOptions);
 
-    const onSubmit = async (data: PostModel) => {
-        const id = toast.loading("Publicando");
-        try {
-            const body = {
-                ...data,
-                image: img,
-                article,
-                updatedAt: date,
-            };
-            
-            if (post._id) {
-                const { data: response } = await axios.put<PostModel>(
-                    `/api/post/${post._id}`,
-                    body,
-                );
-                toast.update(id, {
-                    render: "Atualizado!",
-                    onClick: () =>
-                        window.open(
-                            `/post/${response._id}/${response.title}`,
-                            "_blank",
-                        ),
-                    ...acceptConfig,
-                });
-                setLink(`/post/${response._id}/${response.title}`);
-            }else{
-                body.createdAt = date;
-                const { data: response } = await axios.post<PostModel>(
-                    "/api/post",
-                    body,
-                );
-                toast.update(id, {
-                    render: "Publicado!",
-                    onClick: () =>
-                        window.open(
-                            `/post/${response._id}/${response.title}`,
-                            "_blank",
-                        ),
-                    ...acceptConfig,
-                });
-                setLink(`/post/${response._id}/${response.title}`);
-            }
-        } catch (err: any) {
-            Object.keys(err.response.data).forEach((field) => {
-                if (field === "type") return;
+    const handlePostPublished = useCallback(
+        (post) => () =>
+            window.open(`/post/${post._id}/${post.title}`, "_blank"),
+        [],
+    );
 
-                setError(field as PostKeys, {
-                    message: err.response.data[field],
+    const onSubmit = useCallback(
+        async (data: PostModel) => {
+            const id = toast.loading("Publicando");
+            const body = { ...data, article, image: img, updatedAt: date };
+            try {
+                const { response, type } = await handlePost(
+                    body,
+                    id,
+                    handlePostPublished,
+                );
+                if (type === "post") {
+                    router.replace(`/post/create/${response._id}`);
+                }
+                setLink(`/post/${response.id}/${response.title}`);
+            } catch (err: any) {
+                Object.keys(err.response.data).forEach((field) => {
+                    if (field === "type") return;
+
+                    setError(field as PostKeys, {
+                        message: err.response.data[field],
+                    });
                 });
-            });
-            toast.update(id, {
-                render: "Erro ao publicar!",
-                ...errorConfig,
-            });
-        }
-    };
+                toast.update(id, {
+                    render: "Erro ao publicar!",
+                    ...errorConfig,
+                });
+            }
+        },
+        [article, date, handlePostPublished, img, router, setError],
+    );
 
     const onPreview = async () => {
         await axios.post<PostModel>("/api/preview");

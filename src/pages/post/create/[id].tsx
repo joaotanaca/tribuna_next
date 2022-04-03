@@ -5,10 +5,9 @@ import { GetServerSidePropsContext, NextPage } from "next";
 import axios from "axios";
 import { PostModel } from "interfaces/models/Post";
 import Post from "models/Post";
+import { validateUuid } from "lib/uuid";
 
 const PostPage: NextPage<{ post: PostModel }> = ({ post }) => {
-    console.log(post);
-
     return (
         <>
             <Head>
@@ -22,10 +21,10 @@ const PostPage: NextPage<{ post: PostModel }> = ({ post }) => {
 export async function getServerSideProps(
     context: GetServerSidePropsContext<{ id: string }>,
 ) {
-    const id = context?.params?.id;
+    const id = context?.params?.id as string;
     let post = null;
 
-    if (id !== "new") {
+    if (id !== "new" && validateUuid(id)) {
         const result = await Post.findById(id);
         post = JSON.stringify(result);
         post = JSON.parse(post as string);
