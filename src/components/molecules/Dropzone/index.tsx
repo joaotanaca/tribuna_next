@@ -6,9 +6,10 @@ import { getBase64 } from "../../../lib/base64";
 import { ContainerDrop } from "./styles";
 
 const Dropzone: React.FC<{
+    defaultValue?:string
     onChange: (preview: FileT) => void;
-}> = ({ onChange }) => {
-    const [preview, setPreview] = useState({ name: "", img: "" });
+}> = ({ onChange, defaultValue = "" }) => {
+    const [preview, setPreview] = useState({ name: "", img: defaultValue });
     const {
         acceptedFiles,
         getRootProps,
@@ -62,7 +63,7 @@ const Dropzone: React.FC<{
                 <input {...getInputProps()} />
                 <p>Selecione ou arraste uma imagem aqui</p>
             </ContainerDrop>
-            {acceptedFiles.length > 0 && (
+            {preview.img && (
                 <aside className="col-span-10">
                     <div className="flex gap-4 items-center h-full preview-image">
                         <img

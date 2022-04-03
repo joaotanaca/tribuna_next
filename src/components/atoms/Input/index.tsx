@@ -1,5 +1,5 @@
 import { PostModel } from "interfaces/models/Post";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { UseFormRegister } from "react-hook-form";
 
 import { Container, Error } from "./styles";
@@ -15,6 +15,7 @@ const Input: React.FC<PropsT> = ({
     placeholder,
     error,
     name,
+    value,
     register,
     ...props
 }) => {
@@ -38,6 +39,13 @@ const Input: React.FC<PropsT> = ({
         },
         [active, eventTypes],
     );
+
+    useEffect(() => {
+        if (value) {
+            setActive(true);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div>
