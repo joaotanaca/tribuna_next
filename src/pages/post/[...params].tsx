@@ -62,7 +62,10 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         post = JSON.parse(post as string);
     }
 
-    return { props: { info: post, preview: !!context.preview } };
+    return {
+        props: { info: post, preview: !!context.preview },
+        revalidate: 60 * 60 * 1,
+    };
 }
 
 export default PostPage;
