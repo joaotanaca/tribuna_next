@@ -6,7 +6,7 @@ import { getBase64 } from "../../../lib/base64";
 import { ContainerDrop } from "./styles";
 
 const Dropzone: React.FC<{
-    defaultValue?:string
+    defaultValue?: string;
     onChange: (preview: FileT) => void;
 }> = ({ onChange, defaultValue = "" }) => {
     const [preview, setPreview] = useState({ name: "", img: defaultValue });
@@ -26,8 +26,6 @@ const Dropzone: React.FC<{
     const dropActions = useMemo(() => {
         if (isFocused) {
             return "focus";
-        } else if (isDragAccept) {
-            return "accept";
         } else if (isDragAccept) {
             return "accept";
         } else if (isDragReject) {
