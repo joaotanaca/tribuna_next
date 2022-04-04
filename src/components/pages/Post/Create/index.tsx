@@ -14,6 +14,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { handlePost } from "helpers/createPost";
+import ReactTagInput from "@pathofdev/react-tag-input";
 
 const Container = styled.div.attrs({ className: "mx-auto" })`
     max-width: 1080px;
@@ -34,9 +35,12 @@ const CreatePost: React.FC<PostModel> = (post) => {
         setError,
         clearErrors,
         watch,
+        setValue,
         formState: { isSubmitting, errors, isValid },
     } = useForm<PostModel>({ defaultValues: post });
-    const [link, setLink] = useState("");
+    const [link, setLink] = useState(
+        post._id ? `/post/${post._id}/${post.title}` : "",
+    );
     const [article, setArticle] = useState("");
     const [img, setImg] = useState(post.image || "");
     const values = watch();
@@ -60,10 +64,13 @@ const CreatePost: React.FC<PostModel> = (post) => {
                     id,
                     handlePostPublished,
                 );
+
                 if (type === "post") {
                     router.replace(`/post/create/${response._id}`);
                 }
-                setLink(`/post/${response.id}/${response.title}`);
+
+                setValue("_id", response._id);
+                setLink(`/post/${response._id}/${response.title}`);
             } catch (err: any) {
                 Object.keys(err.response.data).forEach((field) => {
                     if (field === "type") return;
@@ -78,7 +85,7 @@ const CreatePost: React.FC<PostModel> = (post) => {
                 });
             }
         },
-        [article, date, handlePostPublished, img, router, setError],
+        [article, date, handlePostPublished, img, router, setError, setValue],
     );
 
     const onPreview = async () => {
@@ -99,7 +106,7 @@ const CreatePost: React.FC<PostModel> = (post) => {
             {link && (
                 <div className="container mx-auto mt-16">
                     <Link passHref href={link as any}>
-                        <a target="_blank">Post publicado</a>
+                        <a target="_blank">Ir para matéria</a>
                     </Link>
                 </div>
             )}
@@ -150,6 +157,13 @@ const CreatePost: React.FC<PostModel> = (post) => {
                 </div>
                 <div className="w-full">
                     <Quill onChange={setArticle} defaultValue={post.article} />
+                </div>
+                <div className="w-full">
+                    <ReactTagInput
+                    placeholder="Digite e aperte Enter"
+                        tags={values.tags}
+                        onChange={(newTags) => setValue("tags", newTags)}
+                    />
                 </div>
 
                 <div className="flex gap-4">

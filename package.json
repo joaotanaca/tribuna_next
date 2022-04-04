@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@pathofdev/react-tag-input": "^1.0.7",
     "axios": "^0.26.0",
     "jodit-react": "^1.2.18",
     "mongoose": "^6.2.6",

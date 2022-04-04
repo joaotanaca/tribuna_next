@@ -5,6 +5,7 @@ import Global from "styles/global";
 import "quill/dist/quill.snow.css";
 import "../styles/globals.css";
 import 'react-toastify/dist/ReactToastify.min.css';
+import "@pathofdev/react-tag-input/build/index.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
