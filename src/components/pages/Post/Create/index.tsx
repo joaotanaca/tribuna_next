@@ -161,7 +161,7 @@ const CreatePost: React.FC<PostModel> = (post) => {
                 <div className="w-full">
                     <ReactTagInput
                     placeholder="Digite e aperte Enter"
-                        tags={values.tags}
+                        tags={values.tags || []}
                         onChange={(newTags) => setValue("tags", newTags)}
                     />
                 </div>
