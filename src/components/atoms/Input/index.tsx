@@ -1,4 +1,3 @@
-import { PostModel } from "interfaces/models/Post";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { UseFormRegister } from "react-hook-form";
 
@@ -7,7 +6,7 @@ import { Container, Error } from "./styles";
 type PropsT = React.InputHTMLAttributes<HTMLInputElement> & {
     name: string | any;
     error?: string;
-    register: UseFormRegister<PostModel>;
+    register: UseFormRegister<any>;
 };
 
 const Input: React.FC<PropsT> = ({
@@ -44,7 +43,7 @@ const Input: React.FC<PropsT> = ({
         if (value) {
             setActive(true);
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

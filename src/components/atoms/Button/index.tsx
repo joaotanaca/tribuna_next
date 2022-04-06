@@ -35,7 +35,7 @@ const Button: React.FC<
     ButtonHTMLAttributes<HTMLButtonElement> & ButtonStyled
 > = ({ children, className, ...props }) => (
     <Container
-        className={`${className} rounded-lg px-2.5 py-3.5 transition-all`}
+        className={`rounded-lg px-2.5 py-3.5 transition-all ${className}`}
         {...props}
     >
         {children}
