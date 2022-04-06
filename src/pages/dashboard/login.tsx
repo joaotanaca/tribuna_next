@@ -1,0 +1,45 @@
+import Button from "atoms/Button";
+import Input from "atoms/Input";
+import { UserModel } from "interfaces/models/User";
+import React, { useCallback } from "react";
+import { useForm } from "react-hook-form";
+import styled from "styled-components";
+
+export const Container = styled.div`
+    .login-container {
+        background-color: ${({ theme }) => theme.gray6};
+    }
+`;
+
+const Login: React.FC = () => {
+    const { handleSubmit, register } = useForm<UserModel>();
+    const onSubmit = useCallback(async (data: UserModel) => {
+        console.log(data);
+    }, []);
+    return (
+        <Container className="w-full h-full flex justify-center items-center">
+            <form
+                className="px-12 pt-12 pb-10 login-container rounded-lg grid grid-cols-1 gap-8"
+                onSubmit={handleSubmit(onSubmit)}
+            >
+                <Input
+                    type="email"
+                    placeholder="Email"
+                    name="email"
+                    register={register}
+                />
+                <Input
+                    type="password"
+                    placeholder="Senha"
+                    name="password"
+                    register={register}
+                />
+                <Button className="py-2" type="submit">
+                    Entrar
+                </Button>
+            </form>
+        </Container>
+    );
+};
+
+export default Login;
