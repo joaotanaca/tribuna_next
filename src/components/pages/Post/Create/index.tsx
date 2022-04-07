@@ -7,7 +7,7 @@ import Input from "atoms/Input";
 import Dropzone from "molecules/Dropzone";
 import { PostKeys, PostModel } from "interfaces/models/Post";
 import { lsset } from "lib/localstorage";
-import { acceptConfig, errorConfig } from "constants/toast";
+import { errorConfig } from "constants/toast";
 import { localeOptions } from "constants/date";
 import { useForm } from "react-hook-form";
 import axios from "axios";

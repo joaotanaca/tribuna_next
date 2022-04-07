@@ -17,7 +17,7 @@ export const handlePost = async (
         );
         toast.update(toastId, {
             render: "Atualizado!",
-            onClick:onClick(response),
+            onClick: onClick(response),
             ...acceptConfig,
         });
         return { type: "put", response };
@@ -26,7 +26,7 @@ export const handlePost = async (
     const { data: response } = await axios.post<PostModel>("/api/post", body);
     toast.update(toastId, {
         render: "Publicado!",
-        onClick:onClick(response),
+        onClick: onClick(response),
         ...acceptConfig,
     });
     return { type: "post", response };
