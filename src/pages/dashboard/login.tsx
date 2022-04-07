@@ -1,9 +1,13 @@
 import Button from "atoms/Button";
 import Input from "atoms/Input";
+import axios from "axios";
+import { toast } from "react-toastify";
 import { UserModel } from "interfaces/models/User";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { errorConfig, acceptConfig } from "constants/toast";
+import { setToken } from "helpers/token";
 
 export const Container = styled.div`
     .login-container {
@@ -13,8 +17,24 @@ export const Container = styled.div`
 
 const Login: React.FC = () => {
     const { handleSubmit, register } = useForm<UserModel>();
-    const onSubmit = useCallback(async (data: UserModel) => {
-        console.log(data);
+    const onSubmit = useCallback(async (body: UserModel) => {
+        const id = toast.loading("Publicando");
+        try {
+            const { data: response } = await axios.post(
+                "/api/auth/signin",
+                body,
+            );
+
+            setToken(response.token);
+
+            toast.update(id, {
+                render: `Bem vindo ${response?.user?.name}`,
+                ...acceptConfig,
+            });
+        } catch (err: any) {
+            toast.update(id, { render: err.response.data, ...errorConfig });
+            console.log();
+        }
     }, []);
     return (
         <Container className="w-full h-full flex justify-center items-center">
