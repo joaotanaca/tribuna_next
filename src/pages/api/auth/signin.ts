@@ -1,16 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import cookie from "js-cookie";
 import { UserModel } from "interfaces/models/User";
 import User from "db/models/User";
+import { jwtIncode } from "lib/jwt";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-    let user;
     const { body, method } = req;
 
     switch (method) {
         case "POST":
-            user = await Post(body);
+            const data = await Post(body);
 
-            if (user) return res.status(200).send(user);
+            if (data) return res.status(200).send(data);
             return res.status(400).send("Email ou senha incorretos");
 
         default:
@@ -22,7 +23,11 @@ const Post = async ({ email, password }: UserModel) => {
     const user = await User.findOne<UserModel>({ email });
 
     if (user?.password === password) {
-        return user;
+        const token = jwtIncode(user);
+
+        delete user?.password;
+
+        return { user, token };
     }
 
     return null;
