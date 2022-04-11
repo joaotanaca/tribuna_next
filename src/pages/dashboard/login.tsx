@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { errorConfig, acceptConfig } from "constants/toast";
 import { setToken } from "helpers/token";
+import { useRouter } from "next/router";
 
 export const Container = styled.div`
     .login-container {
@@ -17,25 +18,32 @@ export const Container = styled.div`
 
 const Login: React.FC = () => {
     const { handleSubmit, register } = useForm<UserModel>();
-    const onSubmit = useCallback(async (body: UserModel) => {
-        const id = toast.loading("Publicando");
-        try {
-            const { data: response } = await axios.post(
-                "/api/auth/signin",
-                body,
-            );
+    const { query, push } = useRouter();
 
-            setToken(response.token);
+    const onSubmit = useCallback(
+        async (body: UserModel) => {
+            const id = toast.loading("Logando");
+            try {
+                const { data: response } = await axios.post(
+                    "/api/auth/signin",
+                    body,
+                );
 
-            toast.update(id, {
-                render: `Bem vindo ${response?.user?.name}`,
-                ...acceptConfig,
-            });
-        } catch (err: any) {
-            toast.update(id, { render: err.response.data, ...errorConfig });
-            console.log();
-        }
-    }, []);
+                setToken(response.token);
+
+                if (query?.urlCallback) push(query.urlCallback as any);
+
+                toast.update(id, {
+                    render: `Bem vindo ${response?.user?.name}`,
+                    ...acceptConfig,
+                });
+            } catch (err: any) {
+                toast.update(id, { render: err.response.data, ...errorConfig });
+            }
+        },
+        [push, query.urlCallback],
+    );
+
     return (
         <Container className="w-full h-full flex justify-center items-center">
             <form
