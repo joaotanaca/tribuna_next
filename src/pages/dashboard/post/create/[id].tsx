@@ -2,7 +2,6 @@ import React from "react";
 import Head from "next/head";
 import CreatePost from "page/Post/Create";
 import { GetServerSidePropsContext, NextPage } from "next";
-import axios from "axios";
 import { PostModel } from "interfaces/models/Post";
 import Post from "models/Post";
 import { validateUuid } from "lib/uuid";
