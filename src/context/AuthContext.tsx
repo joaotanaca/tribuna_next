@@ -8,7 +8,6 @@ import {
 import { setCookie, parseCookies } from "nookies";
 import Router from "next/router";
 
-import { recoverUserInformation, signInRequest } from "../services/auth";
 import axios from "axios";
 
 type User = {
@@ -39,11 +38,11 @@ export function AuthProvider({ children }: PropsWithChildren<any>) {
         const { token: token } = parseCookies();
 
         if (token) {
-            recoverUserInformation().then(
-                (response: { user: SetStateAction<User | null> }) => {
-                    setUser(response.user);
-                },
-            );
+            // recoverUserInformation().then(
+            //     (response: { user: SetStateAction<User | null> }) => {
+            //         setUser(response.user);
+            //     },
+            // );
         }
     }, []);
 
