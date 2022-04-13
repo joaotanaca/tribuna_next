@@ -45,7 +45,7 @@ const Login: React.FC = () => {
     );
 
     return (
-        <Container className="w-full h-full flex justify-center items-center">
+        <Container className="w-screen h-screen flex justify-center items-center">
             <form
                 className="px-12 pt-12 pb-10 login-container rounded-lg grid grid-cols-1 gap-8"
                 onSubmit={handleSubmit(onSubmit)}

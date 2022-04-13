@@ -24,7 +24,7 @@ export const ThemeProvider: React.FC = ({ children }) => {
 
     useEffect(() => {
         const localstorageTheme = (localStorage.getItem("theme") ??
-            "light") as ThemeKeys;
+            "dark") as ThemeKeys;
         setTheme(localstorageTheme);
     }, []);
 

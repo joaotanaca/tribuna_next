@@ -1,15 +1,24 @@
 import styled, { css } from "styled-components";
 
 export const Container = styled.div`
-    background-color: ${({ theme }) => theme.gray5};
+    background-color: ${({ theme }) => theme.gray6};
+    ${({ theme }) =>
+        theme.theme === "dark"
+            ? css`
+                  border-bottom: 1px solid ${theme.blue};
+                  border-radius:4px;
+                  border-bottom-right-radius:0;
+                  border-bottom-left-radius:0;
+              `
+            : null}
     &.error {
         ${({ theme }) => css`
             background-color: rgba(255, 45, 45, 0.1);
-            color: ${({ theme }) => theme.red};
+            color: ${theme.red};
             label {
-                color: ${({ theme }) => theme.red};
+                color: ${theme.red};
                 &.active {
-                    color: ${({ theme }) => theme.red};
+                    color: ${theme.red};
                 }
             }
         `}

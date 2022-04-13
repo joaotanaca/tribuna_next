@@ -1,4 +1,6 @@
 const light = {
+    theme: "light",
+    text: "#000",
     red: "#FF3B30",
     orange: "#FF9500",
     yellow: "#FFCC00",
@@ -14,9 +16,12 @@ const light = {
     gray4: "#D1D1D6",
     gray5: "#E5E5EA",
     gray6: "#F2F2F7",
+    bg: "#FFF",
 };
 
 const dark = {
+    theme: "dark",
+    text: "#FFF",
     red: "#FF453A",
     orange: "#FF9F0A",
     yellow: "#FFD60A",
@@ -32,6 +37,7 @@ const dark = {
     gray4: "#3A3A3C",
     gray5: "#1C1C1E",
     gray6: "#1C1C1E",
+    bg: "#000",
 };
 export const theme = { dark, light };
 
